@@ -1,0 +1,38 @@
+{
+    "Records": [
+        {
+            "eventVersion": "2.1",
+            "eventSource": "aws:s3",
+            "awsRegion": "us-east-1",
+            "eventTime": "2023-08-16T00:07:15.253Z",
+            "eventName": "ObjectCreated:Put",
+            "userIdentity": {
+                "principalId": "AWS:AROA6Q4PNHCKYRIT7ROH6:sit-ConvertIsoXmlToJson"
+            },
+            "requestParameters": {
+                "sourceIPAddress": "44.210.16.158"
+            },
+            "responseElements": {
+                "x-amz-request-id": "VZQBQKAJPY3Z38WC",
+                "x-amz-id-2": "mXgY3wllhMo86OURWhtDVn28kFrInssrevGrtsOL/PDxVZ+3WlrfmuHAKZJk/xDKaBa8rrqZ8QMvw3ek7eD2bWe5qvZNo6MRNpB+WjL3KG8="
+            },
+            "s3": {
+                "s3SchemaVersion": "1.0",
+                "configurationId": "sit-AugmentJson-a110374603e2f6ea644a444752c6afb7",
+                "bucket": {
+                    "name": "gp-sit-us-east-1-magic-json-cache",
+                    "ownerIdentity": {
+                        "principalId": "A1RSAZBJF7LY79"
+                    },
+                    "arn": "arn:aws:s3:::gp-sit-us-east-1-magic-json-cache"
+                },
+                "object": {
+                    "key": "raw/01a37db7-82c2-42d8-bc71-b7e34b2db43f.json",
+                    "size": 19353,
+                    "eTag": "e832aafd47cc865f2513fe2d18ccf0fb",
+                    "sequencer": "0064DC133339BD0895"
+                }
+            }
+        }
+    ]
+}

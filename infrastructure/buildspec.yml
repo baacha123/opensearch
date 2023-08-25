@@ -1,0 +1,62 @@
+version: 0.2
+run-as: root
+
+env:
+  shell: bash
+
+phases:
+  install:
+    commands:
+      - echo Install started at `date`
+      - npm -g config set user root
+      - npm i -g serverless
+
+  pre_build:
+    commands:
+      - echo Pre-build started at `date`
+      - REPO_ROOT_PATH=`pwd`
+      - echo Storing repo root path $REPO_ROOT_PATH
+
+      - echo Setting up AWS CLI credentials...
+      - sls config credentials --provider aws --profile default --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY
+
+      - git config --global credential.helper store
+      - GITHUB_TOKEN_SECRET=$(aws secretsmanager get-secret-value --region $AWS_DEFAULT_REGION --secret-id $SECRET_ARN_FOR_GITHUB_TOKEN --query 'SecretString' --output text)
+      - GITHUB_PERSONAL_ACCESS_TOKEN=$(echo $GITHUB_TOKEN_SECRET | jq -r '.GitHubPersonalAccessToken')
+      - echo "https://ngpi-intergration:$GITHUB_PERSONAL_ACCESS_TOKEN@github.com" >> ~/.git-credentials
+
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
+
+      - echo Logging in to DockerHub...
+      - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+
+  build:
+    commands:
+      - echo Build started at `date`
+
+      - echo Deploying stack lambdas...
+      - cd $REPO_ROOT_PATH/infrastructure/lambdas
+      - npm i
+      - sls deploy -v -s $STAGE --aws-profile default
+
+      - echo Deploying stack codepipeline...
+      - cd $REPO_ROOT_PATH/infrastructure/codepipeline
+      - npm i
+      - sls deploy -v -s $STAGE --aws-profile default
+
+  post_build:
+    commands:
+      - echo Post-build started at `date`
+      - echo Pushing magic-import Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$MAGIC_IMPORT_IMAGE_REPO_NAME:$MAGIC_IMPORT_IMAGE_TAG
+
+      - echo Running database migrations...
+      - aws deploy create-deployment --profile default --application-name $STAGE-logic-db-setup --deployment-group-name $STAGE --s3-location bucket=gp-$STAGE-$AWS_DEFAULT_REGION-logic-codedeploy,key=artifact/MAGIC.zip,bundleType=zip
+
+#artifacts:
+#  files:
+#    - 'scripts/deploy.sh'
+#    - 'appspec.yml'
+#   disacard-paths: true
+#   base-directory:

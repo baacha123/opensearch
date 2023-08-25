@@ -1,0 +1,18 @@
+{
+    "name": "search-api",
+    "version": "1.0.0",
+    "description": "Search API for GP records",
+    "scripts": {
+        "sit:deploy": "serverless deploy -v --stage sit --aws-profile sit",
+        "sit:destroy": "echo serverless remove -v --stage sit --aws-profile sit"
+    },
+    "author": "Xentity",
+    "license": "UNLICENSED",
+    "dependencies": {
+        "serverless": "^3.15.0"
+    },
+    "devDependencies": {
+        "@geoplatform/gp-lib": "^1.0.60",
+        "serverless-plugin-scripts": "^1.0.2"
+    }
+}

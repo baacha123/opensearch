@@ -1,0 +1,11 @@
+{
+    "AWS_BUCKET": "koagroup-crestone",
+    "AWS_KEY": "templates/json/",
+    "SWAGGER_BUCKET": "koagroup-crestone",
+    "SWAGGER_KEY": "config/swagger-definition-full-{{stage}}.json",
+    "DB_BUCKET": "koagroup-crestone",
+    "DB_KEY": "config/falck_db_connection.json",
+    "DEFAULT_SENDER": "Falck Global Assistance <notifications@thekoagroup.com>",
+    "EMAIL_OVERRIDES": "{\"map\":{\"security\":\"coyle5280@gmail.com,harry.ching@thekoagroup.com\",\"josh@crestonedigital.com\":\"josh@crestonedigital.com,harry.ching@thekoagroup.com\",\"harry.ching@thekoagroup.com\":\"harry.ching@thekoagroup.com\",\"diane.defranco@thekoagroup.com\":\"diane.defranco@thekoagroup.com\",\"mbrown@crestonedigital.com\":\"mbrown@crestonedigital.com\",\"mike@crestonedigital.com\":\"mike@crestonedigital.com,harry.ching@thekoagroup.com\"},\"default\":\"mbrown@crestonedigital.com,diane.defranco@thekoagroup.com,harry.ching@thekoagroup.com\"}",
+    "DEFAULT_STAGE": "v1"
+}

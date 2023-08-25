@@ -1,0 +1,14 @@
+Outputs:
+
+  # Don't export this, it creates a nasty web of stack dependencies if imported
+  # elsewhere. Instead, make an ARN reference if you need this in another stack
+  #
+  #     layers:
+  #       - arn:aws:lambda:${self:provider.region}:${aws:accountId}:layer:GPCore:251
+  #
+  # LayerExport:
+  #   Description: GP Core Lambda Layer containing nodejs dependencies
+  #   Value:
+  #     Ref: GPCoreLambdaLayer
+  #   Export:
+  #     Name: ${self:provider.stage}-GPCoreLambdaLayerARN

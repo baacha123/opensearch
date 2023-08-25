@@ -1,0 +1,24 @@
+Resources:
+
+  CNAMERecordOpenSearchPublicService:
+    Type: AWS::Route53::RecordSetGroup
+    Condition: ShouldOnlyCreateResourceInSIT
+    DependsOn: OpenSearchServiceDomainSit
+    Properties:
+      HostedZoneId: ${self:custom.environment.HOSTED_ZONE_ID_DOMAIN}
+      RecordSets:
+      - Name: ${self:custom.environment.OPENSEARCH_HOSTNAME}
+        Type: CNAME
+        TTL: 60
+        ResourceRecords:
+          - !GetAtt [ OpenSearchServiceDomainSit, DomainEndpoint ]
+
+Outputs:
+
+  CNAMERecordOpenSearchPublicService:
+    Condition: ShouldOnlyCreateResourceInSIT
+    Description: Record set group name
+    Value:
+        Ref: CNAMERecordOpenSearchPublicService
+    Export:
+        Name: ${self:provider.stage}-ARecordOpenSearchPublicService

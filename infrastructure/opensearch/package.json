@@ -1,0 +1,11 @@
+{
+    "name": "opensearch",
+    "version": "1.0.0",
+    "description": "OpenSearch infrastructure",
+    "author": "Xentity",
+    "license": "ISC",
+    "devDependencies": {
+        "cross-env": "^7.0.2",
+        "serverless": "^3.30.1"
+    }
+}

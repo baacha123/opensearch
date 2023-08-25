@@ -1,0 +1,53 @@
+sit:
+  STACK_NAME_PREFIX: ""
+  DEPLOYMENT_BUCKET_PREFIX: ${self:custom.namespaceShort}
+  EBS_IOPS: 3000
+  EBS_VOLUME_SIZE: 100
+  EBS_VOLUME_TYPE: gp3
+  OPENSEARCH_HOSTNAME: ${self:provider.stage}-${self:service}.geoplatform.info
+  CERTIFICATE_ARN: arn:aws:acm:us-east-1:998343784597:certificate/2af32203-e6f8-42c1-815d-e336c93f3783
+  DEDICATED_MASTER_ENABLED: false
+  DEDICATED_MASTER_TYPE: 't3.small.search'
+  DEDICATED_MASTER_COUNT: 1
+  INSTANCE_COUNT: 1
+  INSTANCE_TYPE: 't3.small.search'
+  HOSTED_ZONE_ID_DOMAIN: Z104704314NAAG3GV4SN1
+  HOSTED_ZONE_ID_CLOUDFRONT: Z2FDTNDATAQYW2 # hardcoded Host Zone ID
+  WARM_ENABLED: false
+  ZONE_AWARERNESS_ENABLED: false
+
+stg:
+  STACK_NAME_PREFIX: "${self:custom.namespaceShort}-"
+  DEPLOYMENT_BUCKET_PREFIX: ${self:custom.namespaceShort}
+  EBS_IOPS: 3000
+  EBS_VOLUME_SIZE: 100
+  EBS_VOLUME_TYPE: gp3
+  OPENSEARCH_HOSTNAME: ${self:provider.stage}-${self:service}.geoplatform.info
+  CERTIFICATE_ARN: arn:aws:acm:us-east-1:998343784597:certificate/2af32203-e6f8-42c1-815d-e336c93f3783
+  DEDICATED_MASTER_COUNT: 3
+  DEDICATED_MASTER_ENABLED: true
+  DEDICATED_MASTER_TYPE: 't3.small.search'
+  INSTANCE_COUNT: 2
+  INSTANCE_TYPE: 't3.small.search'
+  HOSTED_ZONE_ID_DOMAIN: Z104704314NAAG3GV4SN1
+  HOSTED_ZONE_ID_CLOUDFRONT: Z2FDTNDATAQYW2 # hardcoded Host Zone ID
+  WARM_ENABLED: false
+  ZONE_AWARERNESS_ENABLED: true
+
+prd:
+  STACK_NAME_PREFIX: "${self:custom.namespaceShort}-"
+  DEPLOYMENT_BUCKET_PREFIX: ${self:custom.namespaceShort}
+  EBS_IOPS: 3000
+  EBS_VOLUME_SIZE: 100
+  EBS_VOLUME_TYPE: gp3
+  OPENSEARCH_HOSTNAME: ${self:provider.stage}-${self:service}.geoplatform.info
+  CERTIFICATE_ARN: arn:aws:acm:us-east-1:998343784597:certificate/2af32203-e6f8-42c1-815d-e336c93f3783
+  DEDICATED_MASTER_COUNT: 3
+  DEDICATED_MASTER_ENABLED: true
+  DEDICATED_MASTER_TYPE: 'm5.large.search'
+  INSTANCE_COUNT: 2
+  INSTANCE_TYPE: 'm5.large.search'
+  HOSTED_ZONE_ID_DOMAIN: Z104704314NAAG3GV4SN1
+  HOSTED_ZONE_ID_CLOUDFRONT: Z2FDTNDATAQYW2 # hardcoded Host Zone ID
+  WARM_ENABLED: false
+  ZONE_AWARERNESS_ENABLED: true

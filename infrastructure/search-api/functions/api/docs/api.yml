@@ -1,0 +1,220 @@
+openapi: 3.0.0
+info:
+  title: API Reference
+  version: 1.0.0
+  description: API documentation for the search api
+servers:
+  - url: "http://localhost:9000/"
+    description: "Development Server"
+
+paths:
+  /eng/q:
+    get:
+      summary: Search for datasets
+      operationId: getDatasets
+      parameters:
+        - name: uuid
+          in: query
+          description: Identifier of record to return
+          required: false
+          schema:
+            type: string
+        - name: title
+          in: query
+          description: Title of record
+          required: false
+          schema:
+            type: string
+        - name: topicCat
+          in: query
+          description: Keyword to search on
+          required: false
+          schema:
+            type: string
+        - name: orgName
+          in: query
+          description: Organization to search on
+          required: false
+          schema:
+            type: string
+        - name: geometry
+          in: query
+          description: geometry for spatial query
+          required: false
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: distribution type
+          required: false
+          schema:
+            type: string       
+        - name: format
+          in: query
+          description: format type
+          required: false
+          schema:
+            type: string    
+        - name: status
+          in: query
+          description: status of data
+          required: false
+          schema:
+            type: string    
+        - name: agency
+          in: query
+          description: agency
+          required: false
+          schema:
+            type: string   
+        - name: facet.q
+          in: query
+          description: GN facet param
+          required: false
+          schema:
+            type: string   
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/records/{uuid}/formatters/json:
+    get:
+      summary: Get dataset detail - JSON
+      operationId: getDatasets
+      parameters:
+        - name: uuid
+          in: path
+          description: Identifier of record to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/records/{uuid}/formatters/xsl-view:
+    get:
+      summary: Get dataset detail - XSL
+      operationId: getDatasets
+      parameters:
+        - name: uuid
+          in: path
+          description: Identifier of record to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /eng/suggest:
+  # field=any&sortBy=STARTSWITHFIRST&q=public
+    get:
+      summary: Suggest datasets based on limited text input
+      operationId: getSuggestions
+      parameters:
+        - name: q
+          in: query
+          description: query string
+          required: false
+          schema:
+            type: string
+        - name: field
+          in: query
+          description: field to query
+          required: false
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: sort by field
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /ping:
+    get:
+      summary: Ping the search api
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string

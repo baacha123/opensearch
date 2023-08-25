@@ -1,0 +1,35 @@
+service: opensearch
+
+frameworkVersion: ">=3.30.1"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: ${opt:stage, 'sit'}
+  region: ${opt:region, 'us-east-1'}
+  profile: ${self:provider.stage}
+  deploymentBucket:
+    name: ${self:custom.environment.DEPLOYMENT_BUCKET_PREFIX}-${self:provider.stage}-${self:provider.region}-serverless-framework
+    blockPublicAccess: true
+    maxPreviousDeploymentArtifacts: 5
+  stackName: ${self:custom.environment.STACK_NAME_PREFIX}${self:provider.stage}-${self:service}
+  stackPolicy:
+    - Effect: Allow
+      Principal: "*"
+      Action: "Update:*"
+      Resource: "*"
+
+package:
+  patterns:
+    - '!.git/**'
+    - '!node_modules/**'
+
+custom:
+  environment: ${file(./environment.yml):${self:provider.stage}}
+  namespace: geoplatform # Used to tag resources with a "Namespace".
+  namespaceShort: gp # Used to prefix stack name, deployment bucket, resource "Name" tags, etc.
+
+resources:
+  - ${file(./conditions.yml)}
+  - ${file(./resources-dns.yml)}
+  - ${file(./resources-opensearch.yml)}

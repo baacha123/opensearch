@@ -1,0 +1,11 @@
+{
+    "name": "convert-iso-to-xml",
+    "version": "0.0.1",
+    "description": "A lambda that pulls receives events from s3 and transforms xml to json",
+    "scripts": {},
+    "author": "Xentity",
+    "license": "ISC",
+    "devDependencies": {
+        "xml2js": "^0.6.2"
+    }
+}

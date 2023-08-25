@@ -1,0 +1,11 @@
+{
+    "name": "augment-json",
+    "version": "0.0.1",
+    "description": "A lambda that receives events from s3 and modifies incoming json for downstream ingestion into OpenSearch",
+    "scripts": {},
+    "author": "Xentity",
+    "license": "ISC",
+    "dependencies": {
+        "jsonpath-plus": "^7.2.0"
+    }
+}

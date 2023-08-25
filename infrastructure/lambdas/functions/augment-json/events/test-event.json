@@ -1,0 +1,39 @@
+{
+    "Records": [
+        {
+            "eventVersion": "2.1",
+            "eventSource": "aws:s3",
+            "awsRegion": "us-east-1",
+            "eventTime": "2023-08-02T15:51:52.663Z",
+            "eventName": "ObjectCreated:Put",
+            "userIdentity": {
+                "principalId": "AWS:AIDA6Q4PNHCK4ESSLNBD7"
+            },
+            "requestParameters": {
+                "sourceIPAddress": "172.100.246.68"
+            },
+            "responseElements": {
+                "x-amz-request-id": "2277W22JDKWTEN54",
+                "x-amz-id-2": "sEurI/b7ZgB9N35eK/C8rp75DbGHZmNnkoZK63URtYpJmkgbtpyYxdakOVhzt77idOswuLwQPaBnvncL+KQGdQnPzkeaQd7T"
+            },
+            "s3": {
+                "s3SchemaVersion": "1.0",
+                "configurationId": "sit-AugementJson-f6ae83ff692d7e41e9ae36a3a5cf2905",
+                "bucket": {
+                    "name": "gp-sit-us-east-1-magic-json-cache",
+                    "ownerIdentity": {
+                        "principalId": "A1RSAZBJF7LY79"
+                    },
+                    "arn": "arn:aws:s3:::gp-sit-us-east-1-magic-json-cache"
+                },
+                "object": {
+                    "key": "raw/test-data-gov-id.json",
+                    "size": 130186,
+                    "eTag": "68e5c47c4304cea7920bdda84168ca35",
+                    "versionId": "6TACZQiFRR8clGDrZ2YUaOMm7qOhcztN",
+                    "sequencer": "0064CA7B9821A9E488"
+                }
+            }
+        }
+    ]
+}

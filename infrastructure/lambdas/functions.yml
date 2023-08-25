@@ -1,0 +1,169 @@
+AugmentJson:
+  handler: functions/augment-json/index.handler
+  name: ${self:provider.stage}-AugmentJson
+  description: A lambda that receives a Data.gov converted JSON and augments it for ingesting into OpenSearch downstream
+  runtime: nodejs16.x
+  memorySize: 512
+  timeout: 30
+  layers:
+    - ${self:custom.environment.GP_CORE_LAYER_VERSION}
+  events:
+    - s3:
+        bucket:
+          Fn::ImportValue: ${self:provider.stage}-S3BucketJSONCache
+        event: s3:ObjectCreated:*
+        rules:
+          - suffix: .json
+          - prefix: raw/
+        existing: true
+        forceDeploy: true
+  # limit concurrency since queue processes ~150k records
+  reservedConcurrency: 7
+  environment:
+    JSON_CACHE_BUCKET:
+      Fn::ImportValue: ${self:provider.stage}-S3BucketJSONCache
+    DATA_PIPELINE_EVENT_BUS_NAME:
+      Fn::ImportValue: ${self:provider.stage}-EventBusDataPipelineName
+    DB_HOST:
+      Fn::ImportValue: ${self:provider.stage}-MAGICPostgresRDSProxyEndpoint
+    MAGIC_DB_SECRET: ${self:provider.stage}/MAGIC/RDSMAGICAdmin
+    DB_NAME: ${self:custom.environment.NGDA_HARVEST_DB_NAME}
+    REGION: ${self:provider.region}
+    SEQUELIZE_LOGGING: disable # disable | enable
+    STAGE: ${self:provider.stage}
+  vpc:
+    securityGroupIds:
+      - Fn::ImportValue: ${self:provider.stage}-VPCDefaultSecurityGroup
+      - Fn::ImportValue: ${self:provider.stage}-TileserviceLambdaSecurityGroup # PostgreSQL access
+    subnetIds:
+      - Fn::ImportValue: ${self:provider.stage}-PrivateSubnetOne
+      - Fn::ImportValue: ${self:provider.stage}-PrivateSubnetTwo
+  alarms:
+    - functionAllFailures
+    - functionErrors
+    - functionThrottles
+  package:
+    include:
+      - functions/augment-json/package.json
+      - functions/augment-json/node_modules/**
+      - functions/augment-json/index.js
+      - functions/augment-json/src/main.js
+      - functions/augment-json/src/applicators.js
+
+
+ConvertIsoXmlToJson:
+  handler: functions/convert-iso-xml-to-json/index.handler
+  name: ${self:provider.stage}-ConvertIsoXmlToJson
+  description: A lambda that receives Data.gov XML ISO via an s3 event and converts it to JSON
+  runtime: nodejs16.x
+  memorySize: 512
+  timeout: 30
+  layers:
+    - ${self:custom.environment.GP_CORE_LAYER_VERSION}
+  events:
+    - s3:
+        bucket: 
+          Fn::ImportValue: ${self:provider.stage}-S3BucketDataGovCache
+        event: s3:ObjectCreated:*
+        rules:
+          - suffix: .xml
+        existing: true
+        forceDeploy: true
+  # limit concurrency since queue processes ~150k records
+  reservedConcurrency: 7
+  environment:
+    JSON_CACHE_BUCKET:
+      Fn::ImportValue: ${self:provider.stage}-S3BucketJSONCache
+    DATA_GOV_CACHE_BUCKET:
+      Fn::ImportValue: ${self:provider.stage}-S3BucketDataGovCache
+    DATA_PIPELINE_EVENT_BUS_NAME:
+      Fn::ImportValue: ${self:provider.stage}-EventBusDataPipelineName
+    REGION: ${self:provider.region}
+    SEQUELIZE_LOGGING: disable # disable | enable
+    STAGE: ${self:provider.stage}
+  alarms:
+    - functionAllFailures
+    - functionErrors
+    - functionThrottles
+  package:
+    include:
+      - functions/convert-iso-xml-to-json/package.json
+      - functions/convert-iso-xml-to-json/index.js
+      - functions/convert-iso-xml-to-json/src/main.js
+
+
+IngestJsonMetadata:
+  handler: functions/ingest-json-metadata/index.handler
+  name: ${self:provider.stage}-IngestJsonMetadata
+  description: A lambda that is triggered by upstream s3 event to ingest json metadata into OpenSearch
+  runtime: nodejs16.x
+  memorySize: 512
+  timeout: 30
+  layers:
+    - ${self:custom.environment.GP_CORE_LAYER_VERSION}
+  events:
+    - s3:
+        bucket: 
+          Fn::ImportValue: ${self:provider.stage}-S3BucketJSONCache
+        event: s3:ObjectCreated:*
+        rules:
+          - suffix: .json
+          - prefix: augmented/
+        existing: true
+        forceDeploy: true
+  # limit concurrency since queue processes ~150k records
+  reservedConcurrency: 7
+  vpc:
+    securityGroupIds:
+      - Fn::ImportValue: ${self:provider.stage}-VPCDefaultSecurityGroup
+    subnetIds:
+      - Fn::ImportValue: ${self:provider.stage}-PrivateSubnetOne
+      - Fn::ImportValue: ${self:provider.stage}-PrivateSubnetTwo
+  iamRoleStatements:
+    # s3
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+      Resource:
+        - Fn::Join:
+          - ""
+          - - "arn:aws:s3:::"
+            - Fn::ImportValue: ${self:provider.stage}-S3BucketJSONCache
+            - "/*"
+      # KMS permissions.
+    - Effect: Allow
+      Action:
+        - kms:Decrypt
+      Resource:
+        - Fn::ImportValue: ${self:provider.stage}-KeyOpenSearchARN
+    # SecretsManager permissions.
+    - Effect: Allow
+      Action:
+        - "secretsmanager:GetSecretValue"
+      Resource:
+        - Fn::ImportValue: ${self:provider.stage}-SecretOpenSearchARN
+    - Effect: Allow
+      Action:
+        - "es:ESHttpPut"
+        - "es:ESHttpPost"
+      Resource: 
+        - "arn:aws:es:${self:provider.region}:${aws:accountId}:domain/${self:custom.environment.OPENSEARCH_DOMAIN}"
+        - "arn:aws:es:${self:provider.region}:${aws:accountId}:domain/${self:custom.environment.OPENSEARCH_DOMAIN}/*"
+  environment:
+    # OPENSEARCH_SECRET: ${self:provider.stage}/opensearch/admin-credentials
+    OPENSEARCH_NODE: https://${self:provider.stage}-${self:custom.environment.OPENSEARCH_DOMAIN}.geoplatform.info/
+    OPENSEARCH_INDEX_NAME: ${self:custom.environment.OPENSEARCH_INDEX_NAME}
+    OPENSEARCH_AWS_REGION: ${self:provider.region}
+    DATA_PIPELINE_EVENT_BUS_NAME:
+      Fn::ImportValue: ${self:provider.stage}-EventBusDataPipelineName
+    STAGE: ${self:provider.stage}
+  alarms:
+    - functionAllFailures
+    - functionErrors
+    - functionThrottles
+  package:
+    include:
+      - functions/ingest-json-metadata/package.json
+      - functions/ingest-json-metadata/node_modules/**
+      - functions/ingest-json-metadata/index.js
+      - functions/ingest-json-metadata/src/main.js

@@ -1,0 +1,401 @@
+{
+  "@from": "1",
+  "@to": "1",
+  "@selected": "0",
+  "@maxPageSize": "100",
+  "summary":   {
+    "@count": "1",
+    "@type": "local",
+    "types": [    {
+      "@count": "1",
+      "@name": "dataset",
+      "@label": "Dataset"
+    }],
+    "topicCats": [    {
+      "@count": "1",
+      "@name": "imageryBaseMapsEarthCover",
+      "@label": "Imagery base maps earth cover"
+    }],
+    "inspireThemes": [],
+    "inspireThemesWithAc": [],
+    "inspireThemesURI": [],
+    "keywords":     [
+            {
+        "@count": "1",
+        "@name": "GIS",
+        "@label": "GIS"
+      },
+            {
+        "@count": "1",
+        "@name": "US",
+        "@label": "US"
+      },
+            {
+        "@count": "1",
+        "@name": "Mapping",
+        "@label": "Mapping"
+      },
+            {
+        "@count": "1",
+        "@name": "Raster",
+        "@label": "Raster"
+      },
+            {
+        "@count": "1",
+        "@name": "Imagery",
+        "@label": "Imagery"
+      },
+            {
+        "@count": "1",
+        "@name": "Interferometric Synthetic Aperture Radar",
+        "@label": "Interferometric Synthetic Aperture Radar"
+      },
+            {
+        "@count": "1",
+        "@name": "IFSAR",
+        "@label": "IFSAR"
+      },
+            {
+        "@count": "1",
+        "@name": "High Resolution",
+        "@label": "High Resolution"
+      },
+            {
+        "@count": "1",
+        "@name": "Cartography",
+        "@label": "Cartography"
+      },
+            {
+        "@count": "1",
+        "@name": "Digital Mapping",
+        "@label": "Digital Mapping"
+      },
+            {
+        "@count": "1",
+        "@name": "Geodata",
+        "@label": "Geodata"
+      },
+            {
+        "@count": "1",
+        "@name": "Image",
+        "@label": "Image"
+      },
+            {
+        "@count": "1",
+        "@name": "ORI",
+        "@label": "ORI"
+      },
+            {
+        "@count": "1",
+        "@name": "USGS:a09a2261-3863-4b53-b271-b30d543146aa",
+        "@label": "USGS:a09a2261-3863-4b53-b271-b30d543146aa"
+      },
+            {
+        "@count": "1",
+        "@name": "Orthorectified radar intensity imagery",
+        "@label": "Orthorectified radar intensity imagery"
+      }
+    ],
+    "orgNames": [    {
+      "@count": "1",
+      "@name": "U.S. Geological Survey",
+      "@label": "U.S. Geological Survey"
+    }],
+    "createDateYears": [],
+    "formats":     [
+            {
+        "@count": "1",
+        "@name": "3DEP Elevation Bare Earth DEM Image Server (ArcGIS)",
+        "@label": "3DEP Elevation Bare Earth DEM Image Server (ArcGIS)"
+      },
+            {
+        "@count": "1",
+        "@name": "3DEP Elevation Bare Earth DEM Image Server (OGC WCS)",
+        "@label": "3DEP Elevation Bare Earth DEM Image Server (OGC WCS)"
+      },
+            {
+        "@count": "1",
+        "@name": "3DEP Elevation Bare Earth DEM Image Server (OGC WMS)",
+        "@label": "3DEP Elevation Bare Earth DEM Image Server (OGC WMS)"
+      },
+            {
+        "@count": "1",
+        "@name": "3DEP Elevation Index Map Server (ArcGIS)",
+        "@label": "3DEP Elevation Index Map Server (ArcGIS)"
+      },
+            {
+        "@count": "1",
+        "@name": "3DEP Elevation Index Map Server (OGC WMS)",
+        "@label": "3DEP Elevation Index Map Server (OGC WMS)"
+      },
+            {
+        "@count": "1",
+        "@name": "Browsable Download Directory",
+        "@label": "Browsable Download Directory"
+      },
+            {
+        "@count": "1",
+        "@name": "WAF",
+        "@label": "WAF"
+      }
+    ],
+    "gpFormats":     [
+            {
+        "@count": "1",
+        "@name": "OGC Web Coverage Service",
+        "@label": "OGC Web Coverage Service"
+      },
+            {
+        "@count": "1",
+        "@name": "OGC Web Map Service",
+        "@label": "OGC Web Map Service"
+      },
+            {
+        "@count": "1",
+        "@name": "Unknown",
+        "@label": "Unknown"
+      },
+            {
+        "@count": "1",
+        "@name": "Web Accessible File",
+        "@label": "Web Accessible File"
+      }
+    ],
+    "agency": [    {
+      "@count": "1",
+      "@name": "Department of the Interior",
+      "@label": "Department of the Interior"
+    }],
+    "spatialRepresentationTypes": [],
+    "maintenanceAndUpdateFrequencies":     [
+            {
+        "@count": "1",
+        "@name": "asNeeded",
+        "@label": "As needed"
+      },
+            {
+        "@count": "1",
+        "@name": "unknown",
+        "@label": "Unknown"
+      }
+    ],
+    "status": [    {
+      "@count": "1",
+      "@name": "completed",
+      "@label": "Completed"
+    }],
+    "serviceTypes": [],
+    "denominators": [],
+    "resolutions": []
+  },
+  "metadata":   {
+    "title": "Alaska Orthorectified Radar Intensity Image - USGS National Map 3DEP Downloadable Data Collection",
+    "abstract": "These data are orthorectified radar intensity images (ORI) derived from interferometric synthetic aperture radar (ifsar) data. An ORI is a high-resolution image derived from ifsar which has geometric distortions removed. Unlike optical imagery, ifsar can be collected in cloudy conditions. The USGS performs minimal quality assurance and no reprocessing of the ORI data. USGS distributes the ORI data as received from the contractors, partners or contributing entities.",
+    "lineage": "This lineage was generated by the FGDC CSDGM to 19139 transformation",
+    "resourceConstraints": "Although these data have been processed successfully on a computer system at the U.S.\n      Geological Survey, no warranty, expressed or implied, is made by either regarding the utility\n      of the data on any system, nor shall the act of distribution constitute any such warranty. The\n      USGS will warranty the delivery of this product in computer-readable format and will offer\n      appropriate adjustment of credit when the product is determined unreadable by correctly\n      adjusted computer peripherals, or when the physical medium is delivered in damaged condition.\n      Requests for adjustments of credit must be made within 90 days from the date of this shipment\n      from the ordering site.",
+    "GPchangeDate": "2020-11-13",
+    "responsibleParty": "Point of contact|metadata|U.S. Geological Survey||tnm_help@usgs.gov|||USGS National Geospatial Program Office, 12201 Sunrise Valley Drive, Reston, VA, 20192, USA|1-888-275-8747||1|",
+    "type": "dataset",
+    "formats_general":     [
+      "Web Accessible File",
+      "Web Accessible File",
+      "Unknown",
+      "OGC Web Map Service",
+      "Unknown",
+      "OGC Web Map Service",
+      "OGC Web Coverage Service"
+    ],
+    "legalConstraints":     [
+      "Use Constraints: There is no guarantee or warranty concerning the accuracy of the data. Users should be aware that temporal changes may have occurred since these data were collected and that some parts of these data may no longer represent actual surface conditions. Users should not use these data for critical applications without a full awareness of its limitations. Acknowledgement of the originating agencies would be appreciated in products derived from these data. Any user who modifies the data is obligated to describe the types of modifications they perform. User specifically agrees not to misrepresent the data, nor to imply that changes made were approved or endorsed by the USGS. Please refer to http://www.usgs.gov/privacy.html for the USGS disclaimer.",
+      "Access Constraints: None. Any downloading and use of these data signifies a user's agreement to comprehension and compliance of the USGS Standard Disclaimer. Insure all portions of metadata are read and clearly understood before using these data in order to protect both user and USGS interests."
+    ],
+    "isHarvested": "n",
+    "displayOrder": "0",
+    "docLocale": "eng",
+    "popularity": "70",
+    "keyword":     [
+      "Department of the Interior",
+      "USGS:a09a2261-3863-4b53-b271-b30d543146aa",
+      "Imagery",
+      "Elevation",
+      "Interferometric Synthetic Aperture Radar",
+      "IFSAR",
+      "High Resolution",
+      "Orthorectified radar intensity imagery",
+      "ORI",
+      "Cartography",
+      "Image",
+      "Imagery",
+      "Digital Mapping",
+      "Geodata",
+      "GIS",
+      "Mapping",
+      "Raster",
+      "USGS",
+      "U.S. Geological Survey",
+      "US",
+      "United States",
+      "Imagery base maps earth cover"
+    ],
+    "credit": "Acknowledgement of the originating agencies would be appreciated in products derived from these data.",
+    "publishedForGroup":     [
+      "2",
+      "1"
+    ],
+    "image": "thumbnail|https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/collections/browse/ori.jpg|Thumbnail JPG image",
+    "tempExtentBegin": "2010-01-01t00:00:00.000z",
+    "mdLanguage": "eng; USA",
+    "maintenanceAndUpdateFrequency_text":     [
+      "As needed",
+      "Unknown"
+    ],
+    "format":     [
+      "WAF",
+      "Browsable Download Directory",
+      "3DEP Elevation Index Map Server (ArcGIS)",
+      "3DEP Elevation Index Map Server (OGC WMS)",
+      "3DEP Elevation Bare Earth DEM Image Server (ArcGIS)",
+      "3DEP Elevation Bare Earth DEM Image Server (OGC WMS)",
+      "3DEP Elevation Bare Earth DEM Image Server (OGC WCS)"
+    ],
+    "root": "gmd:MD_Metadata",
+    "isTemplate": "n",
+    "valid": "-1",
+    "feedbackCount": "0",
+    "tempExtentEnd": "2023-06-28t23:59:59.000z",
+    "rating": "0",
+    "source": "9a0196bc-309b-48c1-b71d-d91c58bb885d",
+    "status": "completed",
+    "updateFrequency": "asNeeded",
+    "geoBox": "-170.00|50.00|-127.00|72.00",
+    "owner": "53324",
+    "recordOwner": "gp bot",
+    "defaultAbstract": "These data are orthorectified radar intensity images (ORI) derived from interferometric synthetic aperture radar (ifsar) data. An ORI is a high-resolution image derived from ifsar which has geometric distortions removed. Unlike optical imagery, ifsar can be collected in cloudy conditions. The USGS performs minimal quality assurance and no reprocessing of the ORI data. USGS distributes the ORI data as received from the contractors, partners or contributing entities.",
+    "link":     [
+      "WAF|Web Accessible Folder|https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/ori_ifsar/||text/plain|1",
+      "Browsable Download Directory|Browsable Download Directory|https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/ORI/TIFF/||text/plain|1",
+      "3DEP Elevation Index Map Server (ArcGIS)|An ArcGIS Map Service for visualizing availability of Elevation products.|https://index.nationalmap.gov/arcgis/rest/services/3DEPElevationIndex/MapServer||text/plain|1",
+      "3DEP Elevation Index Map Server (OGC WMS)|An OGC WMS Map Service for visualizing availability of Elevation products.|https://index.nationalmap.gov/arcgis/services/3DEPElevationIndex/MapServer/WMSServer?request=GetCapabilities&service=WMS|OGC:WMS|application/vnd.ogc.wms_xml|1",
+      "3DEP Elevation Bare Earth DEM Image Server (ArcGIS)|An ArcGIS Image Service for visualizing bare earth DEM Elevation products.|https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer||text/plain|1",
+      "3DEP Elevation Bare Earth DEM Image Server (OGC WMS)|An OGC WMS Map Service for visualizing availability of Elevation products.|https://elevation.nationalmap.gov/arcgis/services/3DEPElevation/ImageServer/WMSServer?request=GetCapabilities&service=WMS|OGC:WMS|application/vnd.ogc.wms_xml|1",
+      "3DEP Elevation Bare Earth DEM Image Server (OGC WCS)|An OGC WCS Map Service for extracting bare earth DEM Elevation data.|https://elevation.nationalmap.gov/arcgis/services/3DEPElevation/ImageServer/WCSServer?request=GetCapabilities&service=WCS||text/plain|1"
+    ],
+    "defaultTitle": "Alaska Orthorectified Radar Intensity Image - USGS National Map 3DEP Downloadable Data Collection",
+    "datasetLang": "eng; USA",
+    "userinfo": "gp-bot|bot|gp|Administrator",
+    "topicCat": "imageryBaseMapsEarthCover",
+    "publicationDate": "2020-01-01",
+    "status_text": "Completed",
+    "standardName": "ISO 19115:2003/19139",
+    "logo": "/images/logos/9a0196bc-309b-48c1-b71d-d91c58bb885d.png",
+    "draft": "n",
+    "keywordGroup":     {
+      "Geoplatform Agency": [      {
+        "value": "Department of the Interior",
+        "link": ""
+      }],
+      "USGS Metadata Identifier": [      {
+        "value": "USGS:a09a2261-3863-4b53-b271-b30d543146aa",
+        "link": ""
+      }],
+      "NGDA Portfolio Themes": [      {
+        "value": "Imagery",
+        "link": ""
+      }],
+      "The National Map (TNM) Elevation":       [
+                {
+          "value": "Elevation",
+          "link": ""
+        },
+                {
+          "value": "Interferometric Synthetic Aperture Radar",
+          "link": ""
+        },
+                {
+          "value": "IFSAR",
+          "link": ""
+        },
+                {
+          "value": "High Resolution",
+          "link": ""
+        },
+                {
+          "value": "Orthorectified radar intensity imagery",
+          "link": ""
+        },
+                {
+          "value": "ORI",
+          "link": ""
+        },
+                {
+          "value": "Cartography",
+          "link": ""
+        },
+                {
+          "value": "Image",
+          "link": ""
+        },
+                {
+          "value": "Imagery",
+          "link": ""
+        },
+                {
+          "value": "Digital Mapping",
+          "link": ""
+        },
+                {
+          "value": "Geodata",
+          "link": ""
+        },
+                {
+          "value": "GIS",
+          "link": ""
+        },
+                {
+          "value": "Mapping",
+          "link": ""
+        },
+                {
+          "value": "Raster",
+          "link": ""
+        },
+                {
+          "value": "USGS",
+          "link": ""
+        },
+                {
+          "value": "U.S. Geological Survey",
+          "link": ""
+        }
+      ],
+      "Geographic Names Information System":       [
+                {
+          "value": "US",
+          "link": ""
+        },
+                {
+          "value": "United States",
+          "link": ""
+        }
+      ]
+    },
+    "groupOwner": "2",
+    "_locale": "eng",
+    "geonet:info":     {
+      "@xmlns:geonet": "http://www.fao.org/geonetwork",
+      "id": "600263",
+      "uuid": "17f7efc0-8382-560e-888f-4d07bdd9b980",
+      "schema": "iso19139",
+      "createDate": "2022-10-14T03:26:50",
+      "changeDate": "2022-10-14T03:26:50",
+      "source": "9a0196bc-309b-48c1-b71d-d91c58bb885d",
+      "isPublishedToAll": "true",
+      "view": "true",
+      "notify": "false",
+      "download": "true",
+      "dynamic": "true",
+      "featured": "false",
+      "selected": "false"
+    }
+  }
+}

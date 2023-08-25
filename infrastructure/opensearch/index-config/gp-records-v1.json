@@ -1,0 +1,69 @@
+{
+  "aliases": {
+    "geoplatform_records": {}
+  },
+  "mappings": {
+    "properties": {
+      "modified": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      },
+      "publicationDate": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      },
+      "responsibleParty": {
+        "type": "keyword"
+      },
+      "metadataStandardName":{
+        "type": "keyword"
+      },
+      "boundingBox": {
+        "type": "geo_shape"
+      },
+      "theme": {
+        "type": "keyword"
+      },
+      "community": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+        "copy_to": ["search_text"]
+      },
+      "distributionType": {
+        "type": "keyword"
+      },
+      "abstract": {
+        "type": "text"
+      },
+      "agency": {
+        "type": "keyword"
+      },
+      "topics": {
+        "type": "keyword"
+      },
+      "agencyContactName": {
+        "type": "keyword"
+      },
+      "format": {
+        "type": "keyword"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "search_text": {
+        "type": "search_as_you_type"
+      },
+      "maintenanceAndUpdateFrequency": {
+        "type": "keyword"
+      },
+      "registryId": {
+        "type": "text"
+      },
+      "augmentationErrors": {
+        "type": "text"
+      }
+    }
+  }
+}

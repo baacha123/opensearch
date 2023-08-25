@@ -1,0 +1,11 @@
+Conditions:
+
+  ShouldOnlyCreateResourceInSIT:
+    Fn::Equals:
+      - ${self:provider.stage}
+      - sit
+  ShouldOnlyCreateResourceInOtherThanSIT:
+    Fn::Not:
+      - Fn::Equals:
+        - ${self:provider.stage}
+        - sit

@@ -1,0 +1,36 @@
+{
+  "name": "search-api",
+  "version": "1.0.0",
+  "description": "Lambda which holds the Search API",
+  "main": "index.js",
+  "scripts": {
+    "localServer": "node -e 'require(\"./index\").runLocal()'",
+    "lint": "eslint .",
+    "dataharvest:sit": "node scripts/dataharvester.js"
+  },
+  "author": "GeoPlatform",
+  "license": "UNLISTED",
+  "dependencies": {
+    "@opensearch-project/opensearch": "^1.2.0",
+    "@vendia/serverless-express": "^4.10.4",
+    "axios": "^1.3.6",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.18.2",
+    "express-openapi": "^12.1.3",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7",
+    "production": "^0.0.2",
+    "util": "^0.12.4"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.939.0",
+    "commander": "^8.3.0",
+    "eslint": "^7.30.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "nodemon": "^2.0.9",
+    "serverless-offline": "^7.0.0"
+  }
+}

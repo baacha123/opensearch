@@ -1,0 +1,38 @@
+sit:
+  STACK_NAME_PREFIX: ""
+  DEPLOYMENT_BUCKET_PREFIX: ${self:custom.namespaceShort}
+  LOGGING_BUCKET_NAME: ${self:custom.environment.DEPLOYMENT_BUCKET_PREFIX}-${self:provider.stage}-${self:provider.region}-geoplatform-logs
+  GP_CORE_LAYER_VERSION: arn:aws:lambda:${self:provider.region}:${aws:accountId}:layer:GPCore:315
+  OPENSEARCH_HOST: ${self:provider.stage}-opensearch.geoplatform.info
+  OPENSEARCH_PORT: 443
+  OPENSEARCH_PROTOCOL: https
+  OPENSEARCH_INDEX_NAME: gp-records-v1
+  OPENSEARCH_SECRET: ${self:provider.stage}/opensearch/admin-credentials
+  OPENSEARCH_AWS_REGION: ${self:provider.region}
+  OPENSEARCH_DOMAIN: opensearch
+
+stg:
+  STACK_NAME_PREFIX: ""
+  DEPLOYMENT_BUCKET_PREFIX: ${self:custom.namespaceShort}
+  LOGGING_BUCKET_NAME: ${self:custom.environment.DEPLOYMENT_BUCKET_PREFIX}-${self:provider.stage}-${self:provider.region}-geoplatform-logs
+  GP_CORE_LAYER_VERSION: arn:aws:lambda:${self:provider.region}:${aws:accountId}:layer:GPCore:196
+  OPENSEARCH_HOST: ${self:provider.stage}-opensearch.geoplatform.gov
+  OPENSEARCH_PORT: 443
+  OPENSEARCH_PROTOCOL: https
+  OPENSEARCH_INDEX_NAME: gp-records
+  OPENSEARCH_SECRET: ${self:provider.stage}/opensearch/admin-credentials
+  OPENSEARCH_AWS_REGION: ${self:provider.region}
+  OPENSEARCH_DOMAIN: opensearch
+
+prd:
+  STACK_NAME_PREFIX: ""
+  DEPLOYMENT_BUCKET_PREFIX: ${self:custom.namespaceShort}
+  LOGGING_BUCKET_NAME: ${self:custom.environment.DEPLOYMENT_BUCKET_PREFIX}-${self:provider.stage}-${self:provider.region}-geoplatform-logs
+  GP_CORE_LAYER_VERSION: arn:aws:lambda:${self:provider.region}:${aws:accountId}:layer:GPCore:196
+  OPENSEARCH_HOST: opensearch.geoplatform.gov
+  OPENSEARCH_PORT: 443
+  OPENSEARCH_PROTOCOL: https
+  OPENSEARCH_INDEX_NAME: gp-records
+  OPENSEARCH_SECRET: ${self:provider.stage}/opensearch/admin-credentials
+  OPENSEARCH_AWS_REGION: ${self:provider.region}
+  OPENSEARCH_DOMAIN: opensearch

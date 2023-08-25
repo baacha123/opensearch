@@ -1,0 +1,245 @@
+service: lambdas
+
+frameworkVersion: ">=2.1.0"
+
+plugins:
+  - serverless-jetpack
+  - serverless-plugin-aws-alerts
+  - serverless-plugin-conditional-functions
+  - serverless-plugin-scripts
+  - serverless-plugin-split-stacks
+  - serverless-prune-plugin
+  - serverless-s3-sync
+  - serverless-iam-roles-per-function
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  lambdaHashingVersion: "20201221"
+  versionFunctions: false
+  stage: ${opt:stage, 'sit'}
+  region: ${opt:region, 'us-east-1'}
+  profile: ${self:provider.stage}
+  deploymentBucket:
+    name: ${self:custom.environment.DEPLOYMENT_BUCKET_PREFIX}-${self:provider.stage}-${self:provider.region}-serverless-framework
+    blockPublicAccess: true
+    maxPreviousDeploymentArtifacts: 5
+  stackName: ${self:custom.environment.STACK_NAME_PREFIX}${self:provider.stage}-${self:service}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "rds:DescribeDBInstances"
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - "sqs:ChangeMessageVisibility"
+        - "sqs:ChangeMessageVisibilityBatch"
+        - "sqs:DeleteMessage"
+        - "sqs:DeleteMessageBatch"
+        - "sqs:GetQueueAttributes"
+        - "sqs:GetQueueUrl"
+        - "sqs:ReceiveMessage"
+        - "sqs:SendMessage"
+        - "sqs:SendMessageBatch"
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - "lambda:InvokeFunction"
+      Resource: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-*
+    - Effect: Allow
+      Action:
+        - "ses:SendRawEmail"
+      Resource: arn:aws:ses:${self:provider.region}:${aws:accountId}:identity/*
+    - Effect: Allow
+      Action:
+        - "s3:ListBucket"
+      Resource:
+        - arn:aws:s3:::${self:custom.environment.MESSAGING_BUCKET}
+        - arn:aws:s3:::${self:custom.environment.HARVEST_BUCKET}
+        - arn:aws:s3:::${self:custom.environment.PROCESS_SERVICES_BUCKET}
+        - Fn::Join:
+            - ""
+            - - "arn:aws:s3:::"
+              - Fn::ImportValue: ${self:provider.stage}-S3BucketNGDA
+        - Fn::Join:
+            - ""
+            - - "arn:aws:s3:::"
+              - Fn::ImportValue: ${self:provider.stage}-S3BucketConfig
+        - Fn::Join:
+            - ""
+            - - "arn:aws:s3:::"
+              - Fn::ImportValue: ${self:provider.stage}-S3BucketDataGovCache
+        - Fn::Join:
+            - ""
+            - - "arn:aws:s3:::"
+              - Fn::ImportValue: ${self:provider.stage}-S3BucketJSONCache
+        - arn:aws:s3:::${self:custom.environment.REPORT_BUCKET}
+        - arn:aws:s3:::${self:custom.environment.SPATIAL_ARTIFACT_BUCKET}
+        - arn:aws:s3:::${self:custom.environment.TILEGARDEN_CONFIG_BUCKET}
+    # S3 Read-Only Permissions
+    - Effect: Allow
+      Action:
+        - "s3:GetObject"
+      Resource:
+        - arn:aws:s3:::${self:custom.environment.HARVEST_BUCKET}/*
+        - arn:aws:s3:::${self:custom.environment.PROCESS_SERVICES_BUCKET}/*
+        - Fn::Join:
+            - ""
+            - - "arn:aws:s3:::"
+              - Fn::ImportValue: ${self:provider.stage}-S3BucketNGDA
+              - "/*"
+    # S3 Read-Write Permissions
+    - Effect: Allow
+      Action:
+        - "s3:GetObject"
+        - "s3:PutObject"
+      Resource:
+        - arn:aws:s3:::${self:custom.environment.MESSAGING_BUCKET}/*
+        - arn:aws:s3:::${self:custom.environment.CONFIG_BUCKET}/*        
+    # S3 Write-Only Permissions
+    - Effect: Allow
+      Action:
+        - "s3:PutObject"
+      Resource:
+        - arn:aws:s3:::${self:custom.environment.TERRIAMAP_CATALOG_BUCKET}/*
+    # S3 Full Permissions
+    - Effect: Allow
+      Action:
+        - "s3:DeleteObject"
+        - "s3:GetObject"
+        - "s3:PutObject"
+        - "s3:PutObjectAcl"
+      Resource:
+        - arn:aws:s3:::${self:custom.environment.REPORT_BUCKET}/*
+        - arn:aws:s3:::${self:custom.environment.SPATIAL_ARTIFACT_BUCKET}/*
+        - arn:aws:s3:::${self:custom.environment.TILEGARDEN_CONFIG_BUCKET}/*
+        - Fn::Join:
+            - ""
+            - - "arn:aws:s3:::"
+              - Fn::ImportValue: ${self:provider.stage}-S3BucketConfig
+              - "/*"
+        - Fn::Join:
+            - ""
+            - - "arn:aws:s3:::"
+              - Fn::ImportValue: ${self:provider.stage}-S3BucketDataGovCache
+              - "/*"
+        - Fn::Join:
+            - ""
+            - - "arn:aws:s3:::"
+              - Fn::ImportValue: ${self:provider.stage}-S3BucketJSONCache
+              - "/*"
+  apiGateway:
+    restApiId:
+      Fn::ImportValue: ${self:provider.stage}-APISharedID
+    restApiRootResourceId:
+      Fn::ImportValue: ${self:provider.stage}-APISharedRootResourceID
+
+package:
+  individually: true
+  exclude:
+    - .git/**
+    - functions/**
+    - layers/**       # this is a build artifact that we don't want picked up
+    - node_modules/** # this should only contain local serverless plugin stuff anyway
+    - keycloaktoken/**
+    - ./*.yml
+    - ./*.json
+    - ./*.md
+    - .dockerignore
+    - .prettierignore
+    - jest.config.js
+    - jest.setup.js
+    - stacks-map.js
+  include:
+    - package.json
+
+custom:
+  environment: ${file(./environment.yml):${self:provider.stage}}
+  namespace: geoplatform # Used to tag resources with a "Namespace".
+  namespaceShort: gp # Used to prefix stack name, deployment bucket, resource "Name" tags, etc.
+
+  serverless-jetpack:
+    mode: npm
+
+  s3Sync: ${self:custom.environment.s3Sync}
+
+  scripts:
+    hooks:
+      "package:initialize": npx recursive-install --skip-root --production && npm update @GeoPlatform/gp-lib
+
+  prune:
+    automatic: true
+    number: ${self:custom.environment.NUMBER_OF_LAMBDA_VERSIONS_TO_RETAIN}
+
+  splitStacks:
+    perFunction: false
+    perType: false
+    perGroupFunction: false
+    # don't use these options, they can create circular dependencies
+    # stackConcurrency: 5
+    # resourceConcurrency: 10
+
+  # serverless-plugin-aws-alerts config.
+  alerts:
+    stages:
+      - sit
+      - stg
+      - prd
+    topics:
+      alarm:
+        topic: arn:aws:sns:${self:provider.region}:${self:custom.environment.AWS_ACCOUNT_ID}:${self:provider.stage}-sns-alarms
+    definitions:
+      functionInvocations:
+        namespace: "AWS/Lambda"
+        metric: Invocations
+        threshold: 15
+        statistic: Sum
+        period: 60
+        evaluationPeriods: 1
+        comparisonOperator: GreaterThanOrEqualToThreshold
+        treatMissingData: missing
+      functionErrors:
+        namespace: "AWS/Lambda"
+        metric: Errors
+        threshold: 1
+        statistic: Maximum
+        period: 60
+        evaluationPeriods: 1
+        comparisonOperator: GreaterThanOrEqualToThreshold
+        treatMissingData: missing
+      functionDuration:
+        namespace: "AWS/Lambda"
+        metric: Duration
+        threshold: 5000
+        statistic: Maximum
+        period: 60
+        evaluationPeriods: 1
+        comparisonOperator: GreaterThanOrEqualToThreshold
+        treatMissingData: missing
+      functionThrottles:
+        namespace: "AWS/Lambda"
+        metric: Throttles
+        threshold: 1
+        statistic: Sum
+        period: 60
+        evaluationPeriods: 1
+        comparisonOperator: GreaterThanOrEqualToThreshold
+        treatMissingData: missing
+      functionAllFailures:
+        metric: AllFailures
+        threshold: 1
+        statistic: Maximum
+        period: 60
+        evaluationPeriods: 1
+        comparisonOperator: GreaterThanOrEqualToThreshold
+        pattern: "?unhandled ?Unhandled ?unexpected ?Unexpected ?Exception ?exception ?Error ?error ?Fail ?fail"
+    alarms:
+      - functionErrors
+      - functionAllFailures
+
+functions: ${file(./functions.yml)}
+
+resources:
+  - ${file(./extensions.yml)}
+  - ${file(./outputs.yml)}

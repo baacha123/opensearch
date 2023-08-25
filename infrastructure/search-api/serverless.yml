@@ -1,0 +1,106 @@
+service: search-api
+
+frameworkVersion: ">=2.1.0"
+
+plugins:
+  - serverless-plugin-scripts
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  lambdaHashingVersion: "20201221"
+  versionFunctions: false
+  stage: ${opt:stage, 'sit'}
+  region: ${opt:region, 'us-east-1'}
+  profile: ${self:provider.stage}
+  deploymentBucket:
+    name: ${self:custom.environment.DEPLOYMENT_BUCKET_PREFIX}-${self:provider.stage}-${self:provider.region}-serverless-framework
+    blockPublicAccess: true
+    maxPreviousDeploymentArtifacts: 5
+  stackName: ${self:custom.environment.STACK_NAME_PREFIX}${self:provider.stage}-${self:service}
+
+  iamRoleStatements:
+    # KMS permissions.
+    - Effect: Allow
+      Action:
+        - kms:Decrypt
+      Resource:
+        - Fn::ImportValue: ${self:provider.stage}-KeyOpenSearchARN
+
+    # SecretsManager permissions.
+    - Effect: Allow
+      Action:
+        - "secretsmanager:GetSecretValue"
+      Resource:
+        - Fn::ImportValue: ${self:provider.stage}-SecretOpenSearchARN
+    # OpenSearch access
+    - Effect: Allow
+      Action:
+        - "es:ESHttpGet"
+      Resource:
+        - "arn:aws:es:${self:provider.region}:${aws:accountId}:domain/${self:custom.environment.OPENSEARCH_DOMAIN}"
+        - "arn:aws:es:${self:provider.region}:${aws:accountId}:domain/${self:custom.environment.OPENSEARCH_DOMAIN}/*"
+
+  apiGateway:
+    restApiId:
+      Fn::ImportValue: ${self:provider.stage}-APISharedID
+    restApiRootResourceId:
+      Fn::ImportValue: ${self:provider.stage}-APISharedRootResourceID
+
+package:
+  individually: true
+  exclude:
+    - .git/**
+    - functions/**
+    - layers/**
+    - node_modules/** # this should only contain local serverless plugin stuff anyway
+    - ./*.yml
+    - ./*.json
+    - ./*.md
+  include:
+    - package.json
+
+custom:
+  environment: ${file(./environment.yml):${self:provider.stage}}
+  namespace: geoplatform # Used to tag resources with a "Namespace".
+  namespaceShort: gp # Used to prefix stack name, deployment bucket, resource "Name" tags, etc.
+
+  scripts:
+    hooks:
+      "package:initialize": npx recursive-install --skip-root --omit=dev
+
+functions:
+  SearchApi:
+    handler: functions/api/index.handler
+    name: ${self:provider.stage}-SearchApi
+    description: lambda providing the search api for GeoPlatform
+    runtime: nodejs16.x
+    memorySize: 1024
+    timeout: 30 # 30 is the max from api gateway
+    layers:
+      - ${self:custom.environment.GP_CORE_LAYER_VERSION}
+    events:
+      - http:
+          path: v1/search/{proxy+}
+          operationId: getSearchApi
+          method: any
+          cors: true
+    vpc:
+      securityGroupIds:
+        - Fn::ImportValue: ${self:provider.stage}-VPCDefaultSecurityGroup
+      subnetIds:
+        - Fn::ImportValue: ${self:provider.stage}-PrivateSubnetOne
+        - Fn::ImportValue: ${self:provider.stage}-PrivateSubnetTwo
+    environment:
+      REGION: ${self:provider.region}
+      STAGE: ${self:provider.stage}
+      OPENSEARCH_SECRET: ${self:custom.environment.OPENSEARCH_SECRET}
+      OPENSEARCH_HOST: ${self:custom.environment.OPENSEARCH_HOST}
+      OPENSEARCH_PORT: ${self:custom.environment.OPENSEARCH_PORT}
+      OPENSEARCH_PROTOCOL: ${self:custom.environment.OPENSEARCH_PROTOCOL}
+      OPENSEARCH_INDEX_NAME: ${self:custom.environment.OPENSEARCH_INDEX_NAME}
+      OPENSEARCH_AWS_REGION: ${self:custom.environment.OPENSEARCH_AWS_REGION}
+    package:
+      patterns:
+        - 'functions/api/**'
+        - '!functions/api/package-lock.json'

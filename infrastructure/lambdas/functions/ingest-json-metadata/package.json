@@ -1,0 +1,11 @@
+{
+    "name": "ingest-json-metadata",
+    "version": "0.0.1",
+    "description": "A lambda that is triggered by upstream s3 event to ingest json metadata into OpenSearch",
+    "scripts": {},
+    "author": "Xentity",
+    "license": "ISC",
+    "dependencies": {
+        "@opensearch-project/opensearch": "^2.3.1"
+    }
+}

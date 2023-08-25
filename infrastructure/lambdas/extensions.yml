@@ -1,0 +1,8 @@
+extensions:
+
+  CreateArtifactLambdaFunction:
+    Properties:
+      FileSystemConfigs:
+        - Arn:
+            Fn::ImportValue: ${self:provider.stage}-AccessPointResourceLambdaARN
+          LocalMountPath: /mnt/efs

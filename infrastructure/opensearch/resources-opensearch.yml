@@ -1,0 +1,93 @@
+Resources:
+
+  OpenSearchServiceDomainSit:
+    Type: AWS::OpenSearchService::Domain
+    Condition: ShouldOnlyCreateResourceInSIT
+    Properties:
+      DomainName: ${self:service}
+      EngineVersion: 'OpenSearch_2.7' # https://docs.aws.amazon.com/opensearch-service/latest/developerguide/what-is.html#choosing-version
+      AdvancedSecurityOptions:
+        Enabled: true
+        InternalUserDatabaseEnabled: true
+        MasterUserOptions:
+          MasterUserName: '{{resolve:secretsmanager:${self:provider.stage}/opensearch/admin-credentials:SecretString:username}}'
+          MasterUserPassword: '{{resolve:secretsmanager:${self:provider.stage}/opensearch/admin-credentials:SecretString:password}}'
+      ClusterConfig:
+        DedicatedMasterEnabled: ${self:custom.environment.DEDICATED_MASTER_ENABLED}
+        InstanceCount:  ${self:custom.environment.INSTANCE_COUNT}
+        InstanceType: ${self:custom.environment.INSTANCE_TYPE}
+        WarmEnabled: ${self:custom.environment.WARM_ENABLED}
+        ZoneAwarenessEnabled: ${self:custom.environment.ZONE_AWARERNESS_ENABLED}
+      DomainEndpointOptions:
+        CustomEndpointEnabled: true
+        CustomEndpoint: ${self:custom.environment.OPENSEARCH_HOSTNAME}
+        CustomEndpointCertificateArn: ${self:custom.environment.CERTIFICATE_ARN}
+        EnforceHTTPS: true
+      EBSOptions:
+        EBSEnabled: true
+        Iops: ${self:custom.environment.EBS_IOPS}
+        VolumeSize: ${self:custom.environment.EBS_VOLUME_SIZE}
+        VolumeType: ${self:custom.environment.EBS_VOLUME_TYPE}
+      NodeToNodeEncryptionOptions:
+        Enabled: true
+      EncryptionAtRestOptions:
+        Enabled: true
+      AccessPolicies:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              AWS: "*"
+            Action: 'es:*'
+            Resource:
+              - Fn::Sub: "arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${self:service}/*"
+      Tags:
+        - Key: Stage
+          Value: ${self:provider.stage}
+
+  OpenSearchServiceDomainStgPrd:
+    Type: AWS::OpenSearchService::Domain
+    Condition: ShouldOnlyCreateResourceInOtherThanSIT
+    Properties:
+      DomainName: ${self:service}
+      EngineVersion: 'OpenSearch_2.7'
+      AdvancedSecurityOptions:
+        Enabled: true
+        InternalUserDatabaseEnabled: true
+        MasterUserOptions:
+          MasterUserName: '{{resolve:secretsmanager:${self:provider.stage}/opensearch/admin-credentials:SecretString:username}}'
+          MasterUserPassword: '{{resolve:secretsmanager:${self:provider.stage}/opensearch/admin-credentials:SecretString:password}}'
+      ClusterConfig:
+        DedicatedMasterEnabled: ${self:custom.environment.DEDICATED_MASTER_ENABLED}
+        DedicatedMasterCount: ${self:custom.environment.DEDICATED_MASTER_COUNT}
+        DedicatedMasterType: ${self:custom.environment.DEDICATED_MASTER_TYPE}
+        InstanceCount:  ${self:custom.environment.INSTANCE_COUNT}
+        InstanceType: ${self:custom.environment.INSTANCE_TYPE}
+        WarmEnabled: ${self:custom.environment.WARM_ENABLED}
+        ZoneAwarenessEnabled: ${self:custom.environment.ZONE_AWARERNESS_ENABLED}
+      DomainEndpointOptions:
+        CustomEndpointEnabled: true
+        CustomEndpoint: ${self:custom.environment.OPENSEARCH_HOSTNAME}
+        CustomEndpointCertificateArn: ${self:custom.environment.CERTIFICATE_ARN}
+        EnforceHTTPS: true
+      EBSOptions:
+        EBSEnabled: true
+        Iops: ${self:custom.environment.EBS_IOPS}
+        VolumeSize: ${self:custom.environment.EBS_VOLUME_SIZE}
+        VolumeType: ${self:custom.environment.EBS_VOLUME_TYPE}
+      NodeToNodeEncryptionOptions:
+        Enabled: true
+      EncryptionAtRestOptions:
+        Enabled: true
+      AccessPolicies:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              AWS: "*"
+            Action: 'es:*'
+            Resource:
+              - Fn::Sub: "arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${self:service}/*"
+      Tags:
+        - Key: Stage
+          Value: ${self:provider.stage}

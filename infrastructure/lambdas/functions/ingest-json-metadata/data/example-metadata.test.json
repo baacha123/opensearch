@@ -1,0 +1,22 @@
+{
+    "publicationDate": "2021-11-16",
+    "responsibleParty": "U.S. Geological Survey",
+    "metadataStandardName": "ISO 19115 Geographic Information - Metadata",
+    "boundingBox": {
+      "type": "envelope",
+      "coordinates": [
+        [-70.678892, 41.692125],
+        [-70.616102, 41.661905]
+      ]
+    },
+    "title": "Survey lines along which interferometric sonar data were collected by the USGS within Red Brook Harbor, MA, 2009 (RB_BathyBackscatterTrackline.shp)",
+    "maintenanceAndUpdateFrequency": "notPlanned",
+    "agencyContactName": "Aaron Turecek",
+    "abstract": "These data were collected under a cooperative agreement with the Massachusetts Office of Coastal Zone Management (CZM) and the U.S. Geological Survey (USGS), Coastal and Marine Geology Program, Woods Hole Coastal and Marine Science Center (WHCMSC). Initiated in 2003, the primary objective of this program is to develop regional geologic framework information for the management of coastal and marine resources. Accurate data and maps of sea-floor geology are important first steps toward protecting fish habitat, delineating marine resources, and assessing environmental changes due to natural or human impacts. The project is focused on the inshore waters (5-30 m deep) of Massachusetts between the New Hampshire border and Cape Cod Bay. Data collected for the mapping cooperative have been released in a series of USGS Open-File Reports (http://woodshole.er.usgs.gov/project-pages/coastal_mass/). This is the spatial dataset for the Red Brook Harbor survey area within Buzzards Bay, Massachusetts. These data are the results of a high-resolution geophysical (bathymetry, backscatter intensity, and seismic reflection) and ground validation (sediment samples and bottom photographs) survey, conducted in 2009. In addition to inclusion within the USGS-CZM geologic mapping effort, these Red Brook Harbor data will be used to assess the shallow-water mapping capability of the geophysical systems deployed for this project, with an emphasis on identifying resolution benchmarks for the interferometric sonar system. (http://woodshole.er.usgs.gov/operations/ia/public_ds_info.php?fa=2009-018-FA)",
+    "format": "SHP",
+    "status": "completed",
+    "distributionType": "dataset",
+    "registryId": "1e538563-1087-4e8c-9e88-228c4938b4b2",
+    "theme": null,
+    "community": null
+  }
