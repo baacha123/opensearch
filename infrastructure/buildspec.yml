@@ -8,7 +8,7 @@ phases:
   install:
     commands:
       - echo Install started at `date`
-      - npm -g config set user root
+      - npm config set user root
       - npm i -g serverless
 
   pre_build:
